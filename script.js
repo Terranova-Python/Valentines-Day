@@ -311,7 +311,7 @@ function goTo(index) {
   updateProgress();
 }
 
-function completeScene(sceneId) {
+function completeScene(sceneId, options = {}) {
   const scene = document.getElementById(sceneId);
   if (!scene || scene.dataset.complete === 'true') {
     return;
@@ -325,8 +325,9 @@ function completeScene(sceneId) {
   }
   updateProgress();
   const index = scenes.indexOf(scene);
+  const delay = Number(options.delay ?? 1100);
   if (index >= 0 && index < scenes.length - 1 && scenes[currentIndex] === scene) {
-    setTimeout(() => goTo(index + 1), 1100);
+    setTimeout(() => goTo(index + 1), delay);
   }
 }
 
@@ -877,7 +878,7 @@ goTo(0);
       piece.style.opacity = '1';
       piece.style.animation = 'confetti 2s ease-in-out forwards';
     });
-    completeScene('scene-9');
+    completeScene('scene-9', { delay: 3500 });
   });
 })();
 

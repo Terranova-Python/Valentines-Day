@@ -1169,6 +1169,7 @@ h1 {
   right: 0;
   background: linear-gradient(120deg, #ffc2d6, #ff8fb2);
   box-shadow: 0 10px 20px rgba(255, 130, 160, 0.25);
+  transition: transform 0.25s ease, opacity 0.4s ease;
 }
 
 .valentine-heart {
