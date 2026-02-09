@@ -2,6 +2,7 @@ const scroller = document.getElementById('scroller');
 const scenes = Array.from(document.querySelectorAll('.scene'));
 const progress = document.getElementById('progress');
 const soundToggle = document.getElementById('sound-toggle');
+const playAgainBtn = document.getElementById('play-again');
 
 let currentIndex = 0;
 
@@ -288,6 +289,12 @@ window.addEventListener('pointerdown', unlockSound, { once: true });
 window.addEventListener('keydown', unlockSound, { once: true });
 
 updateSoundToggle();
+
+if (playAgainBtn) {
+  playAgainBtn.addEventListener('click', () => {
+    window.location.reload();
+  });
+}
 
 function updateProgress() {
   dots.forEach((dot, index) => {
@@ -653,6 +660,7 @@ goTo(0);
   let aiTimer = 0;
   let aiOffset = 0;
   let activeLastFrame = false;
+  let started = false;
 
   const herImg = new Image();
   herImg.src = 'assets/audio/pictures/tennis_her.png';
@@ -678,7 +686,18 @@ goTo(0);
   herImg.addEventListener('load', updatePaddleSize);
   himImg.addEventListener('load', updatePaddleSize);
 
-  const resetBall = () => {
+  const holdBall = () => {
+    ball.x = canvas.width / 2;
+    ball.y = canvas.height / 2;
+    ball.vx = 0;
+    ball.vy = 0;
+    rallyCount = 0;
+    if (rallyEl) {
+      rallyEl.textContent = String(rallyCount);
+    }
+  };
+
+  const serveBall = () => {
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
     ball.vx = 2.2 * (Math.random() > 0.5 ? 1 : -1);
@@ -763,13 +782,19 @@ goTo(0);
     const active = scenes[currentIndex]?.id === 'scene-8';
     if (!active) {
       activeLastFrame = false;
+      started = false;
       requestAnimationFrame(update);
       return;
     }
     if (!activeLastFrame) {
-      resetBall();
+      holdBall();
       updateScoreboard();
       activeLastFrame = true;
+    }
+    if (!started) {
+      draw();
+      requestAnimationFrame(update);
+      return;
     }
     updateAI();
     ball.x += ball.vx;
@@ -806,12 +831,12 @@ goTo(0);
         running = false;
         completeScene('scene-8');
       } else {
-        resetBall();
+        serveBall();
       }
     }
 
     if (ball.y > canvas.height + 30) {
-      resetBall();
+      serveBall();
     }
 
     draw();
@@ -826,6 +851,13 @@ goTo(0);
   };
 
   const court = canvas.closest('.tennis-court');
+  const startMatch = () => {
+    if (started) {
+      return;
+    }
+    started = true;
+    serveBall();
+  };
   if (court) {
     court.addEventListener('mousemove', (event) => handleMove(event.clientX));
     court.addEventListener('touchmove', (event) => {
@@ -834,6 +866,9 @@ goTo(0);
       }
     });
     court.addEventListener('pointermove', (event) => handleMove(event.clientX));
+    court.addEventListener('mouseenter', startMatch);
+    court.addEventListener('pointerenter', startMatch);
+    court.addEventListener('touchstart', startMatch, { passive: true });
   } else {
     canvas.addEventListener('mousemove', (event) => handleMove(event.clientX));
     canvas.addEventListener('touchmove', (event) => {
@@ -841,6 +876,9 @@ goTo(0);
         handleMove(event.touches[0].clientX);
       }
     });
+    canvas.addEventListener('mouseenter', startMatch);
+    canvas.addEventListener('pointerenter', startMatch);
+    canvas.addEventListener('touchstart', startMatch, { passive: true });
   }
 
   updateScoreboard();
