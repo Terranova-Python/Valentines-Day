@@ -232,7 +232,7 @@
           id="scene-7"
           class="scene"
           data-title="Acadia Winter"
-          data-bg="assets/audio/07-acadia-bg.mp3"
+          data-bg="assets/audio/fallback.mp3"
           data-sfx="assets/audio/07-acadia-sfx.wav"
           style="--bg: linear-gradient(170deg, #ffe7f2, #fff8fb 50%, #ffdce7)"
         >
@@ -256,7 +256,7 @@
                 <span></span><span></span><span></span><span></span><span></span>
               </div>
               <div class="trail"></div>
-              <div class="walker"></div>
+              <img class="walker walker-img" src="assets/audio/pictures/walking.png" alt="Walking together" />
             </div>
           </div>
         </section>
@@ -275,16 +275,33 @@
             <p class="subtitle">Rallies, laughs, and a perfect point.</p>
             <div class="task-card">
               <p class="task-title">Task</p>
-              <p class="task-desc">Score a point in virtual tennis.</p>
+              <p class="task-desc">Score three points in virtual tennis.</p>
               <div class="task-controls">
-                <span class="task-status">Move the paddle and hit the ball.</span>
+                <span class="task-status">First to 3 wins. You can't lose.</span>
               </div>
             </div>
           </div>
           <div class="visual">
             <div class="tennis">
-              <canvas id="tennis-canvas" width="480" height="280" aria-label="Virtual tennis" role="img"></canvas>
-              <div class="score">Score: <span id="tennis-score">0</span></div>
+              <div class="tennis-card" aria-hidden="true">
+                <p class="card-title">Score Card</p>
+                <div class="score-row">
+                  <span>You</span>
+                  <span id="tennis-player-score">Love</span>
+                </div>
+                <div class="score-row">
+                  <span>Him</span>
+                  <span id="tennis-opponent-score">Love</span>
+                </div>
+                <div class="score-row rally">
+                  <span>Rally</span>
+                  <span id="tennis-rally">0</span>
+                </div>
+              </div>
+              <div class="tennis-court">
+                <canvas id="tennis-canvas" width="720" height="420" aria-label="Virtual tennis" role="img"></canvas>
+                <div class="score">Points: <span id="tennis-score">0</span>/3</div>
+              </div>
             </div>
           </div>
         </section>
@@ -293,7 +310,7 @@
           id="scene-9"
           class="scene"
           data-title="Wedding"
-          data-bg="assets/audio/09-wedding-bg.mp3"
+          data-bg="assets/audio/fallback.mp3"
           data-sfx="assets/audio/09-wedding-sfx.wav"
           style="--bg: linear-gradient(160deg, #ffe1ec, #fff6fb 50%, #ffd2df)"
         >
@@ -312,6 +329,7 @@
           </div>
           <div class="visual">
             <div class="wedding">
+              <img class="wedding-photo" src="assets/audio/pictures/wedding.PNG" alt="Our wedding day" />
               <div class="aisle"></div>
               <div class="couple-kiss"></div>
               <div class="crowd">
@@ -326,7 +344,7 @@
           id="scene-10"
           class="scene"
           data-title="First Home"
-          data-bg="assets/audio/10-home-bg.mp3"
+          data-bg="assets/audio/fallback.mp3"
           data-sfx="assets/audio/10-home-sfx.wav"
           style="--bg: linear-gradient(155deg, #ffe3ef, #fff9fc 45%, #ffd7e3)"
         >
@@ -364,7 +382,7 @@
           id="scene-11"
           class="scene"
           data-title="Valentine 2026"
-          data-bg="assets/audio/11-valentine-bg.mp3"
+          data-bg="assets/audio/fallback.mp3"
           data-sfx="assets/audio/11-valentine-sfx.wav"
           style="--bg: linear-gradient(180deg, #ffe0ec, #fff5f9 55%, #ffd0dd)"
         >
@@ -397,7 +415,7 @@
           id="scene-12"
           class="scene final"
           data-title="Forever"
-          data-bg="assets/audio/12-forever-bg.mp3"
+          data-bg="assets/audio/fallback.mp3"
           style="--bg: linear-gradient(180deg, #ffe2ee, #fff8fb 60%, #ffd6e3)"
         >
           <div class="content center">

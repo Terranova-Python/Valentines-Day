@@ -52,6 +52,7 @@ let soundUnlocked = false;
 let audioContext = null;
 let currentBg = null;
 let currentBgScene = null;
+let currentBgSrc = null;
 let bgRequestId = 0;
 
 const updateSoundToggle = () => {
@@ -149,6 +150,7 @@ const stopBg = () => {
   currentBg.stop();
   currentBg = null;
   currentBgScene = null;
+  currentBgSrc = null;
 };
 
 const playBgForScene = (sceneId, { force = false } = {}) => {
@@ -168,10 +170,15 @@ const playBgForScene = (sceneId, { force = false } = {}) => {
   if (currentBgScene === sceneId) {
     return;
   }
-  stopBg();
   const bgSrc = scene.dataset.bg;
+  if (bgSrc && currentBgSrc === bgSrc && currentBg) {
+    currentBgScene = sceneId;
+    return;
+  }
+  stopBg();
   const requestId = ++bgRequestId;
   currentBgScene = sceneId;
+  currentBgSrc = bgSrc || null;
   if (bgSrc) {
     const audio = new Audio(bgSrc);
     audio.loop = true;
@@ -292,7 +299,8 @@ function updateProgress() {
 
 function goTo(index) {
   currentIndex = Math.max(0, Math.min(index, scenes.length - 1));
-  const offset = window.innerHeight * currentIndex;
+  const target = scenes[currentIndex];
+  const offset = target ? target.offsetTop : window.innerHeight * currentIndex;
   scroller.style.transform = `translateY(-${offset}px)`;
   scenes.forEach((scene, i) => scene.classList.toggle('active', i === currentIndex));
   if (soundEnabled && soundUnlocked) {
@@ -317,7 +325,7 @@ function completeScene(sceneId) {
   }
   updateProgress();
   const index = scenes.indexOf(scene);
-  if (index >= 0 && index < scenes.length - 1) {
+  if (index >= 0 && index < scenes.length - 1 && scenes[currentIndex] === scene) {
     setTimeout(() => goTo(index + 1), 1100);
   }
 }
@@ -625,20 +633,71 @@ goTo(0);
 (() => {
   const canvas = document.getElementById('tennis-canvas');
   const scoreEl = document.getElementById('tennis-score');
+  const playerScoreEl = document.getElementById('tennis-player-score');
+  const opponentScoreEl = document.getElementById('tennis-opponent-score');
+  const rallyEl = document.getElementById('tennis-rally');
   if (!canvas) {
     return;
   }
   const ctx = canvas.getContext('2d');
-  const paddle = { x: canvas.width / 2 - 40, y: canvas.height - 20, w: 80, h: 10 };
-  const ball = { x: canvas.width / 2, y: 60, vx: 2.4, vy: 3.2, r: 7 };
-  let score = 0;
+  const paddleWidth = 150;
+  const paddleBottom = { x: canvas.width / 2 - paddleWidth / 2, y: 0, w: paddleWidth, h: 24 };
+  const paddleTop = { x: canvas.width / 2 - paddleWidth / 2, y: 12, w: paddleWidth, h: 24 };
+  const ball = { x: canvas.width / 2, y: canvas.height / 2, vx: 2.4, vy: 3.4, r: 7 };
+  const scoreTerms = ['Love', '15', '30', '40', 'Game'];
+  let playerPoints = 0;
+  let opponentPoints = 0;
+  let rallyCount = 0;
   let running = true;
+  let aiTimer = 0;
+  let aiOffset = 0;
+  let activeLastFrame = false;
+
+  const herImg = new Image();
+  herImg.src = 'assets/audio/pictures/tennis_her.png';
+  const himImg = new Image();
+  himImg.src = 'assets/audio/pictures/tennis_him.png';
+
+  const updatePaddleSize = () => {
+    if (herImg.complete && herImg.naturalWidth) {
+      const ratio = herImg.naturalHeight / herImg.naturalWidth;
+      paddleBottom.w = paddleWidth;
+      paddleBottom.h = Math.max(18, paddleWidth * ratio);
+    }
+    if (himImg.complete && himImg.naturalWidth) {
+      const ratio = himImg.naturalHeight / himImg.naturalWidth;
+      paddleTop.w = paddleWidth;
+      paddleTop.h = Math.max(18, paddleWidth * ratio);
+    }
+    paddleBottom.y = canvas.height - paddleBottom.h - 12;
+    paddleTop.y = 12;
+  };
+
+  updatePaddleSize();
+  herImg.addEventListener('load', updatePaddleSize);
+  himImg.addEventListener('load', updatePaddleSize);
 
   const resetBall = () => {
     ball.x = canvas.width / 2;
-    ball.y = 60;
-    ball.vx = 2.4 * (Math.random() > 0.5 ? 1 : -1);
-    ball.vy = 3.2;
+    ball.y = canvas.height / 2;
+    ball.vx = 2.2 * (Math.random() > 0.5 ? 1 : -1);
+    ball.vy = Math.random() > 0.5 ? 3.2 : -3.2;
+    rallyCount = 0;
+    if (rallyEl) {
+      rallyEl.textContent = String(rallyCount);
+    }
+  };
+
+  const updateScoreboard = () => {
+    if (scoreEl) {
+      scoreEl.textContent = String(playerPoints);
+    }
+    if (playerScoreEl) {
+      playerScoreEl.textContent = scoreTerms[playerPoints] || 'Game';
+    }
+    if (opponentScoreEl) {
+      opponentScoreEl.textContent = scoreTerms[opponentPoints] || 'Game';
+    }
   };
 
   const draw = () => {
@@ -646,8 +705,19 @@ goTo(0);
     ctx.fillStyle = 'rgba(255, 160, 190, 0.25)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = '#ff6b9a';
-    ctx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h);
+    if (herImg.complete && herImg.naturalWidth) {
+      ctx.drawImage(herImg, paddleBottom.x, paddleBottom.y, paddleBottom.w, paddleBottom.h);
+    } else {
+      ctx.fillStyle = '#ff6b9a';
+      ctx.fillRect(paddleBottom.x, paddleBottom.y, paddleBottom.w, paddleBottom.h);
+    }
+
+    if (himImg.complete && himImg.naturalWidth) {
+      ctx.drawImage(himImg, paddleTop.x, paddleTop.y, paddleTop.w, paddleTop.h);
+    } else {
+      ctx.fillStyle = '#ff9dbb';
+      ctx.fillRect(paddleTop.x, paddleTop.y, paddleTop.w, paddleTop.h);
+    }
 
     ctx.beginPath();
     ctx.fillStyle = '#ff7aa8';
@@ -655,10 +725,52 @@ goTo(0);
     ctx.fill();
   };
 
+  const updateAI = () => {
+    aiTimer -= 1;
+    if (aiTimer <= 0) {
+      aiOffset = (Math.random() - 0.5) * 120;
+      aiTimer = 20 + Math.random() * 40;
+    }
+    const targetBase = ball.vy < 0 ? ball.x : canvas.width / 2;
+    const targetX = targetBase + aiOffset - paddleTop.w / 2;
+    const dx = targetX - paddleTop.x;
+    const speed = 2.6;
+    paddleTop.x += Math.max(-speed, Math.min(speed, dx));
+    paddleTop.x = Math.max(0, Math.min(canvas.width - paddleTop.w, paddleTop.x));
+  };
+
+  const bounceOffPaddle = (paddle, direction) => {
+    const hitPoint = (ball.x - (paddle.x + paddle.w / 2)) / (paddle.w / 2);
+    const isPlayer = paddle === paddleBottom;
+    const powerShot = isPlayer && Math.random() < 0.25;
+    const boost = powerShot ? 1.5 : 1;
+    const maxSpeed = powerShot ? 7 : 5.5;
+    ball.vx += hitPoint * (powerShot ? 2.2 : 1.4);
+    ball.vx = Math.max(-maxSpeed, Math.min(maxSpeed, ball.vx * boost));
+    const baseVy = Math.min(maxSpeed, Math.max(2.6, Math.abs(ball.vy) * boost + (powerShot ? 0.6 : 0)));
+    ball.vy = direction === 'up' ? -baseVy : baseVy;
+    rallyCount += 1;
+    if (rallyEl) {
+      rallyEl.textContent = String(rallyCount);
+    }
+  };
+
   const update = () => {
     if (!running) {
       return;
     }
+    const active = scenes[currentIndex]?.id === 'scene-8';
+    if (!active) {
+      activeLastFrame = false;
+      requestAnimationFrame(update);
+      return;
+    }
+    if (!activeLastFrame) {
+      resetBall();
+      updateScoreboard();
+      activeLastFrame = true;
+    }
+    updateAI();
     ball.x += ball.vx;
     ball.y += ball.vy;
 
@@ -667,19 +779,29 @@ goTo(0);
     }
 
     if (
-      ball.y + ball.r >= paddle.y &&
-      ball.x >= paddle.x &&
-      ball.x <= paddle.x + paddle.w &&
+      ball.y + ball.r >= paddleBottom.y &&
+      ball.x >= paddleBottom.x &&
+      ball.x <= paddleBottom.x + paddleBottom.w &&
       ball.vy > 0
     ) {
-      ball.vy *= -1;
-      ball.y = paddle.y - ball.r - 1;
+      ball.y = paddleBottom.y - ball.r - 1;
+      bounceOffPaddle(paddleBottom, 'up');
     }
 
-    if (ball.y <= ball.r) {
-      score += 1;
-      scoreEl.textContent = String(score);
-      if (score >= 1) {
+    if (
+      ball.y - ball.r <= paddleTop.y + paddleTop.h &&
+      ball.x >= paddleTop.x + paddleTop.w * 0.25 &&
+      ball.x <= paddleTop.x + paddleTop.w * 0.75 &&
+      ball.vy < 0
+    ) {
+      ball.y = paddleTop.y + paddleTop.h + ball.r + 1;
+      bounceOffPaddle(paddleTop, 'down');
+    }
+
+    if (ball.y <= -20) {
+      playerPoints += 1;
+      updateScoreboard();
+      if (playerPoints >= 3) {
         running = false;
         completeScene('scene-8');
       } else {
@@ -687,7 +809,7 @@ goTo(0);
       }
     }
 
-    if (ball.y > canvas.height + 20) {
+    if (ball.y > canvas.height + 30) {
       resetBall();
     }
 
@@ -697,17 +819,30 @@ goTo(0);
 
   const handleMove = (clientX) => {
     const rect = canvas.getBoundingClientRect();
-    const x = clientX - rect.left;
-    paddle.x = Math.max(0, Math.min(canvas.width - paddle.w, x - paddle.w / 2));
+    const scaleX = canvas.width / rect.width;
+    const x = (clientX - rect.left) * scaleX;
+    paddleBottom.x = Math.max(0, Math.min(canvas.width - paddleBottom.w, x - paddleBottom.w / 2));
   };
 
-  canvas.addEventListener('mousemove', (event) => handleMove(event.clientX));
-  canvas.addEventListener('touchmove', (event) => {
-    if (event.touches[0]) {
-      handleMove(event.touches[0].clientX);
-    }
-  });
+  const court = canvas.closest('.tennis-court');
+  if (court) {
+    court.addEventListener('mousemove', (event) => handleMove(event.clientX));
+    court.addEventListener('touchmove', (event) => {
+      if (event.touches[0]) {
+        handleMove(event.touches[0].clientX);
+      }
+    });
+    court.addEventListener('pointermove', (event) => handleMove(event.clientX));
+  } else {
+    canvas.addEventListener('mousemove', (event) => handleMove(event.clientX));
+    canvas.addEventListener('touchmove', (event) => {
+      if (event.touches[0]) {
+        handleMove(event.touches[0].clientX);
+      }
+    });
+  }
 
+  updateScoreboard();
   draw();
   update();
 })();
@@ -753,11 +888,25 @@ goTo(0);
   const status = scene.querySelector('.task-status');
   let cleared = 0;
 
+  const spawnWood = (tree) => {
+    for (let i = 0; i < 6; i += 1) {
+      const chip = document.createElement('span');
+      chip.className = 'wood-chip';
+      chip.style.left = `${40 + Math.random() * 20}%`;
+      chip.style.top = `${30 + Math.random() * 20}%`;
+      chip.style.setProperty('--drift', (Math.random() - 0.5).toFixed(2));
+      chip.style.animationDelay = `${Math.random() * 0.05}s`;
+      tree.appendChild(chip);
+      chip.addEventListener('animationend', () => chip.remove());
+    }
+  };
+
   trees.forEach((tree) => {
     tree.addEventListener('click', () => {
       if (tree.classList.contains('cut')) {
         return;
       }
+      spawnWood(tree);
       tree.classList.add('cut');
       cleared += 1;
       status.textContent = cleared === trees.length ? 'Property cleared.' : 'Keep clearing.';
@@ -774,13 +923,19 @@ goTo(0);
   const yesBtn = scene.querySelector('.yes-btn');
   const noBtn = scene.querySelector('.no-btn');
   const container = scene.querySelector('.valentine-buttons');
+  let escapes = 0;
 
   const moveNo = () => {
     const maxX = container.clientWidth - noBtn.offsetWidth;
     const maxY = container.clientHeight - noBtn.offsetHeight;
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+    const x = Math.random() * maxX * 2 - maxX / 2;
+    const y = Math.random() * maxY * 2 - maxY / 2;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    escapes += 1;
+    if (escapes >= 5) {
+      noBtn.style.opacity = '0';
+      noBtn.style.pointerEvents = 'none';
+    }
   };
 
   noBtn.addEventListener('mouseenter', moveNo);
