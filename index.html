@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Our Story — Valentine 2026</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="scroller">
+        <section
+          id="scene-1"
+          class="scene"
+          data-title="Halloween Night"
+          data-bg="assets/audio/01-halloween-bg.mp3"
+          data-sfx="assets/audio/01-halloween-sfx.wav"
+          data-bg-auto="false"
+          style="--bg: radial-gradient(circle at 15% 20%, rgba(255, 210, 227, 0.9), rgba(255, 245, 250, 0.7) 45%, rgba(255, 220, 228, 0.8)), linear-gradient(120deg, #ffe1ec, #fef3f7 55%, #ffd1dd)"
+        >
+          <div class="content">
+            <p class="eyebrow">Chapter 01</p>
+            <h1>Halloween Night</h1>
+            <p class="subtitle">Costumes, a bar with live music, and the moment our story started to glow.</p>
+            <div class="task-card">
+              <p class="task-title">Task</p>
+              <p class="task-desc">Listen to the band play. A dancing dinosaur will move to the beat.</p>
+              <div class="task-controls">
+                <button class="btn play-btn" type="button">Play the band</button>
+                <span class="task-status">Press play to start.</span>
+              </div>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="scene-1-art">
+              <img class="hero-image float-slow" src="assets/audio/pictures/halloween_us.png" alt="Halloween night together" />
+              <img class="dino-image" src="assets/audio/pictures/dancing_dino.png" alt="Dancing dinosaur" />
+              <div class="equalizer">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="floaters">
+              <span class="floater heart"></span>
+              <span class="floater note"></span>
+              <span class="floater sparkle"></span>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="scene-2"
+          class="scene"
+          data-title="Gym Days"
+          data-bg="assets/audio/02-gym-bg.mp3"
+          data-sfx="assets/audio/02-gym-sfx.wav"
+          style="--bg: linear-gradient(135deg, #ffe8f0, #fff7fb 50%, #ffd9e7), radial-gradient(circle at 80% 10%, rgba(255, 197, 215, 0.8), transparent 55%)"
+        >
+          <div class="content">
+            <p class="eyebrow">Chapter 02</p>
+            <h1>Stronger Together</h1>
+            <p class="subtitle">Sweat, laughs, and a hundred little wins that turned into strength.</p>
+            <div class="task-card">
+              <p class="task-title">Task</p>
+              <p class="task-desc">Press lift to play the PR moment.</p>
+              <div class="task-controls">
+                <button class="btn lift-btn" type="button">Lift</button>
+                <span class="task-status">Ready to see that PR.</span>
+              </div>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="gym-media" data-still="assets/audio/pictures/gym_still.png" data-gif="assets/audio/pictures/gym.gif">
+              <img class="gym-frame" src="assets/audio/pictures/gym_still.png" alt="Lifting weights" />
+              <div class="gym-glow"></div>
+            </div>
+            <div class="floaters">
+              <span class="floater pulse"></span>
+              <span class="floater heart"></span>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="scene-3"
+          class="scene"
+          data-title="Mountain Days"
+          data-bg="assets/audio/03-mountain-bg.mp3"
+          data-sfx="assets/audio/03-mountain-sfx.wav"
+          style="--bg: linear-gradient(160deg, #ffe3ee 0%, #fff5f9 45%, #ffd6e0 100%)"
+        >
+          <div class="content">
+            <p class="eyebrow">Chapter 03</p>
+            <h1>Chasing Summits</h1>
+            <p class="subtitle">New trails, new skies, and a thousand shared views.</p>
+            <div class="task-card">
+              <p class="task-title">Task</p>
+              <p class="task-desc">Climb the mountain and watch the sunset together.</p>
+              <div class="task-controls">
+                <button class="btn climb-btn" type="button">Climb</button>
+                <span class="task-status">Tap to ascend.</span>
+              </div>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="mountain-art">
+              <img class="mountain-bg" src="assets/audio/pictures/mountain.png" alt="Mountain trail" />
+              <img class="hiker" src="assets/audio/pictures/hiking.PNG" alt="Climbing" />
+              <div class="sun"></div>
+            </div>
+            <div class="floaters">
+              <span class="floater sparkle"></span>
+              <span class="floater heart"></span>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="scene-4"
+          class="scene"
+          data-title="Concert Nights"
+          data-bg="assets/audio/04-concert-bg.mp3"
+          data-sfx="assets/audio/04-concert-sfx.wav"
+          style="--bg: linear-gradient(135deg, #ffe2f0, #fff7fb 50%, #ffd1dd), radial-gradient(circle at 20% 10%, rgba(255, 170, 195, 0.6), transparent 55%)"
+        >
+          <div class="content">
+            <p class="eyebrow">Chapter 04</p>
+            <h1>Concert Sparks</h1>
+            <p class="subtitle">Same music, same heartbeat, dancing in sync.</p>
+            <div class="task-card">
+              <p class="task-title">Task</p>
+              <p class="task-desc">Use the arrow keys (or buttons) to dance side to side to NF.</p>
+              <div class="task-controls">
+                <div class="dance-buttons">
+                  <button class="btn dance-left" type="button">Move Left</button>
+                  <button class="btn dance-right" type="button">Move Right</button>
+                </div>
+                <span class="task-status">8 moves to finish.</span>
+              </div>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="concert stage-bg">
+              <div class="lights">
+                <span></span><span></span><span></span>
+              </div>
+              <img class="stage-image" src="assets/audio/pictures/Stage.png" alt="Concert stage" />
+              <img class="dance-image dancer" src="assets/audio/pictures/dancing.png" alt="Dancing together" />
+            </div>
+            <div class="floaters">
+              <span class="floater note"></span>
+              <span class="floater sparkle"></span>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="scene-5"
+          class="scene"
+          data-title="Family"
+          data-bg="assets/audio/05-family-bg.mp3"
+          data-sfx="assets/audio/05-family-sfx.wav"
+          style="--bg: linear-gradient(145deg, #ffe6f1, #fffafc 45%, #ffdbe7), radial-gradient(circle at 70% 15%, rgba(255, 182, 201, 0.7), transparent 55%)"
+        >
+          <div class="content">
+            <p class="eyebrow">Chapter 05</p>
+            <h1>Our Little Family</h1>
+            <p class="subtitle">Paws, whiskers, fins, and a home full of love.</p>
+            <div class="task-card">
+              <p class="task-title">Task</p>
+              <p class="task-desc">Feed Rowan, Thor, Yrsa, Fruitpie, and Ballin.</p>
+              <div class="task-controls">
+                <span class="task-status">Tap each button to feed them.</span>
+              </div>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="family-wrap">
+              <div class="family-image-wrap">
+                <img class="family-image" src="assets/audio/pictures/family.png" alt="Our family" />
+                <div class="kibble-layer" aria-hidden="true"></div>
+              </div>
+              <div class="feed-buttons">
+                <button class="feed-btn" type="button">Rowan</button>
+                <button class="feed-btn" type="button">Thor</button>
+                <button class="feed-btn" type="button">Yrsa</button>
+                <button class="feed-btn" type="button">Fruitpie</button>
+                <button class="feed-btn" type="button">Ballin</button>
+              </div>
+            </div>
+            <div class="floaters">
+              <span class="floater heart"></span>
+              <span class="floater sparkle"></span>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="scene-6"
+          class="scene parallax-scene"
+          data-title="Iceland Engagement"
+          data-bg="assets/audio/06-iceland-bg.mp3"
+          data-sfx="assets/audio/06-iceland-sfx.wav"
+          style="--bg: linear-gradient(180deg, #ffe5ef 0%, #fff7fb 40%, #ffd5e3 100%)"
+        >
+          <div class="content">
+            <p class="eyebrow">Chapter 06</p>
+            <h1>Iceland, Kirkjufell</h1>
+            <p class="subtitle">A rainbow over the mountain, a yes under the sky.</p>
+            <div class="task-card">
+              <p class="task-title">Task</p>
+              <p class="task-desc">Kiss the fiancee by sliding them together.</p>
+              <div class="task-controls">
+                <input class="kiss-slider" type="range" min="0" max="100" value="0" aria-label="Slide to kiss" />
+                <span class="task-status">Slide until they meet.</span>
+              </div>
+            </div>
+          </div>
+          <div class="visual parallax" id="parallax-iceland">
+            <div class="layer sky" data-depth="0.2"></div>
+            <div class="layer mountain" data-depth="0.5"></div>
+            <div class="layer lake" data-depth="0.7"></div>
+            <div class="layer rainbow" data-depth="0.3"></div>
+            <div class="couple" data-depth="1">
+              <img class="person-img person-left" src="assets/audio/pictures/kiss_her.png" alt="Her" />
+              <img class="person-img person-right" src="assets/audio/pictures/kiss_him.png" alt="Him" />
+              <div class="kiss-heart"></div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="scene-7"
+          class="scene"
+          data-title="Acadia Winter"
+          data-bg="assets/audio/07-acadia-bg.mp3"
+          data-sfx="assets/audio/07-acadia-sfx.wav"
+          style="--bg: linear-gradient(170deg, #ffe7f2, #fff8fb 50%, #ffdce7)"
+        >
+          <div class="content">
+            <p class="eyebrow">Chapter 07</p>
+            <h1>Acadia Winter</h1>
+            <p class="subtitle">Cold winds, stormy skies, and the warmth of walking together.</p>
+            <div class="task-card">
+              <p class="task-title">Task</p>
+              <p class="task-desc">Walk through the stormy winter weather.</p>
+              <div class="task-controls">
+                <button class="btn walk-btn" type="button">Hold to Walk</button>
+                <span class="task-status">Hold Space or the button.</span>
+              </div>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="storm">
+              <div class="wind"></div>
+              <div class="snow">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="trail"></div>
+              <div class="walker"></div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="scene-8"
+          class="scene"
+          data-title="Tennis"
+          data-bg="assets/audio/08-tennis-bg.mp3"
+          data-sfx="assets/audio/08-tennis-sfx.wav"
+          style="--bg: linear-gradient(150deg, #ffe2ec, #fff7fb 45%, #ffd4df)"
+        >
+          <div class="content">
+            <p class="eyebrow">Chapter 08</p>
+            <h1>Match Point</h1>
+            <p class="subtitle">Rallies, laughs, and a perfect point.</p>
+            <div class="task-card">
+              <p class="task-title">Task</p>
+              <p class="task-desc">Score a point in virtual tennis.</p>
+              <div class="task-controls">
+                <span class="task-status">Move the paddle and hit the ball.</span>
+              </div>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="tennis">
+              <canvas id="tennis-canvas" width="480" height="280" aria-label="Virtual tennis" role="img"></canvas>
+              <div class="score">Score: <span id="tennis-score">0</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="scene-9"
+          class="scene"
+          data-title="Wedding"
+          data-bg="assets/audio/09-wedding-bg.mp3"
+          data-sfx="assets/audio/09-wedding-sfx.wav"
+          style="--bg: linear-gradient(160deg, #ffe1ec, #fff6fb 50%, #ffd2df)"
+        >
+          <div class="content">
+            <p class="eyebrow">Chapter 09</p>
+            <h1>We Said I Do</h1>
+            <p class="subtitle">A promise, a kiss, and a crowd that roared.</p>
+            <div class="task-card">
+              <p class="task-title">Task</p>
+              <p class="task-desc">Kiss the bride and let the crowd go wild.</p>
+              <div class="task-controls">
+                <button class="btn kiss-btn" type="button">Kiss the Bride</button>
+                <span class="task-status">Ready for the cheer.</span>
+              </div>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="wedding">
+              <div class="aisle"></div>
+              <div class="couple-kiss"></div>
+              <div class="crowd">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="confetti"></div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="scene-10"
+          class="scene"
+          data-title="First Home"
+          data-bg="assets/audio/10-home-bg.mp3"
+          data-sfx="assets/audio/10-home-sfx.wav"
+          style="--bg: linear-gradient(155deg, #ffe3ef, #fff9fc 45%, #ffd7e3)"
+        >
+          <div class="content">
+            <p class="eyebrow">Chapter 10</p>
+            <h1>Clearing Our Home</h1>
+            <p class="subtitle">A fresh start, a plot of land, and a future in the making.</p>
+            <div class="task-card">
+              <p class="task-title">Task</p>
+              <p class="task-desc">Chop the trees down to clear the property.</p>
+              <div class="task-controls">
+                <span class="task-status">Tap each tree to clear it.</span>
+              </div>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="property">
+              <div class="tree-grid">
+                <button class="tree" type="button"></button>
+                <button class="tree" type="button"></button>
+                <button class="tree" type="button"></button>
+                <button class="tree" type="button"></button>
+                <button class="tree" type="button"></button>
+                <button class="tree" type="button"></button>
+                <button class="tree" type="button"></button>
+                <button class="tree" type="button"></button>
+                <button class="tree" type="button"></button>
+              </div>
+              <div class="home-outline"></div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="scene-11"
+          class="scene"
+          data-title="Valentine 2026"
+          data-bg="assets/audio/11-valentine-bg.mp3"
+          data-sfx="assets/audio/11-valentine-sfx.wav"
+          style="--bg: linear-gradient(180deg, #ffe0ec, #fff5f9 55%, #ffd0dd)"
+        >
+          <div class="content">
+            <p class="eyebrow">Chapter 11</p>
+            <h1>Will You Be My Valentine?</h1>
+            <p class="subtitle">This time, I ask again, and forever.</p>
+            <div class="task-card">
+              <p class="task-title">Task</p>
+              <p class="task-desc">Click yes or no. (The no runs away.)</p>
+              <div class="task-controls">
+                <div class="valentine-buttons">
+                  <button class="btn yes-btn" type="button">Yes</button>
+                  <button class="btn no-btn" type="button" aria-disabled="true">No</button>
+                </div>
+                <span class="task-status">You already know the answer.</span>
+              </div>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="valentine-heart"></div>
+            <div class="floaters">
+              <span class="floater heart"></span>
+              <span class="floater sparkle"></span>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="scene-12"
+          class="scene final"
+          data-title="Forever"
+          data-bg="assets/audio/12-forever-bg.mp3"
+          style="--bg: linear-gradient(180deg, #ffe2ee, #fff8fb 60%, #ffd6e3)"
+        >
+          <div class="content center">
+            <p class="eyebrow">Forever</p>
+            <h1>I love you with all my heart.</h1>
+            <p class="subtitle">You will forever be my Valentine. &lt;3</p>
+            <p class="signature">-A</p>
+          </div>
+          <div class="visual">
+            <div class="final-glow"></div>
+          </div>
+        </section>
+      </div>
+      <div id="progress" aria-hidden="true"></div>
+      <button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="true">Sound: On</button>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
